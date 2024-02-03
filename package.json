@@ -1,16 +1,15 @@
 {
-  "name": "reactjs-vite-tailwindcss-boilerplate",
-  "description": "This is a boilerplate build with Vite, React 18, TypeScript, Vitest, Testing Library, TailwindCSS 3, Eslint and Prettier.",
+  "name": "pants-or-shorts",
+  "description": "Predictive clothing weather app",
   "version": "0.1.0",
   "private": true,
   "author": {
-    "name": "João Paulo Moraes",
-    "email": "joaopaulomoraes@outlook.com",
+    "name": "Louie Knolle",
+    "email": "louie.knolle@gmail.com",
     "url": "https://github.com/joaopaulomoraes"
   },
   "bugs": {
-    "url": "https://github.com/joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate/issues",
-    "email": "joaopaulomoraes@outlook.com"
+    "email": "louie.knolle@gmail.com"
   },
   "scripts": {
     "dev": "vite",
@@ -22,6 +21,9 @@
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
