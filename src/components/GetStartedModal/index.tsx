@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { Stack, TextField } from '@mui/material'
 import { TemperatureContext } from 'components/TemperatureContext'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 const style = {
   position: 'absolute' as const,
@@ -28,56 +28,68 @@ interface GetStartedModalProps {
 
 const GetStartedModal = ({ handleClose, open }: GetStartedModalProps) => {
   const { setPreferredTemperature } = useContext(TemperatureContext)
+  const [isValidNumber, setIsValidNumber] = useState(false) // State to track input validity
+
+  const handleInputChange = (e) => {
+    const isValidNumber = !isNaN(parseFloat(e.target.value))
+    setIsValidNumber(isValidNumber)
+
+    // Visual feedback for invalid input (optional)
+    if (isValidNumber) {
+      e.target.style.backgroundColor = 'white'
+    } else {
+      e.target.style.backgroundColor = '#ffcccc'
+    }
+  }
 
   const handleTemperatureSubmit = () => {
     const textInput = document.getElementById(
       'temperature-input'
     ) as HTMLInputElement
-    const enteredTemperature = parseFloat(textInput.value)
+    const enteredTemperature = parseFloat(textInput?.value)
     setPreferredTemperature(enteredTemperature)
+    setIsValidNumber(false)
 
     setTimeout(() => {
       handleClose()
     }, 50)
   }
   return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500
-          }
-        }}
-      >
-        <Fade in={open}>
-          <Stack sx={style} spacing={4}>
-            <Stack spacing={2}>
-              <Typography
-                id="transition-modal-title"
-                variant="h6"
-                component="h2"
-              >
-                At what air temperature (Fahrenheit) do you like to wear shorts?
-              </Typography>
-              <TextField
-                id="temperature-input"
-                label="Temperature"
-                type="number"
-              />
-            </Stack>
-            <Button onClick={handleTemperatureSubmit}>
-              Tell me what to wear!
-            </Button>
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{
+        backdrop: {
+          timeout: 500
+        }
+      }}
+    >
+      <Fade in={open}>
+        <Stack sx={style} spacing={4}>
+          <Stack spacing={2}>
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              Temperature Preferences
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mb: 2 }}>
+              At what minimum temperature do you prefer to wear shorts?
+            </Typography>
+            <TextField
+              id="temperature-input"
+              label="Temperature"
+              type="number"
+              onChange={handleInputChange}
+            />
           </Stack>
-        </Fade>
-      </Modal>
-    </div>
+          <Button onClick={handleTemperatureSubmit} disabled={!isValidNumber}>
+            Save Preference
+          </Button>
+        </Stack>
+      </Fade>
+    </Modal>
   )
 }
 
