@@ -27,7 +27,8 @@ interface GetStartedModalProps {
 }
 
 const GetStartedModal = ({ handleClose, open }: GetStartedModalProps) => {
-  const { setPreferredTemperature } = useContext(TemperatureContext)
+  const { setPreferredTemperature, setCity, setState } =
+    useContext(TemperatureContext)
   const [isValidNumber, setIsValidNumber] = useState(false) // State to track input validity
 
   const handleInputChange = (e) => {
@@ -82,6 +83,20 @@ const GetStartedModal = ({ handleClose, open }: GetStartedModalProps) => {
               label="Temperature"
               type="number"
               onChange={handleInputChange}
+            />
+            <Typography id="transition-modal-description" sx={{ mb: 2 }}>
+              Where are you located? (Sorry, we only support US cities at the
+              moment.)
+            </Typography>
+            <TextField
+              id="city-input"
+              label="City"
+              onChange={(e) => setCity(e.target.value)}
+            />
+            <TextField
+              id="state-input"
+              label="State"
+              onChange={(e) => setState(e.target.value)}
             />
           </Stack>
           <Button onClick={handleTemperatureSubmit} disabled={!isValidNumber}>
