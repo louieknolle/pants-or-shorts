@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Backdrop from '@mui/material/Backdrop'
-import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
@@ -24,11 +23,15 @@ const style = {
 interface GetStartedModalProps {
   handleClose: () => void
   open: boolean
+  handleNavigate?: () => void
 }
 
-const GetStartedModal = ({ handleClose, open }: GetStartedModalProps) => {
-  const { setPreferredTemperature, setCity, setState } =
-    useContext(TemperatureContext)
+const GetStartedModal = ({
+  handleClose,
+  open,
+  handleNavigate
+}: GetStartedModalProps) => {
+  const { setPreferredTemperature, setZipCode } = useContext(TemperatureContext)
   const [isValidNumber, setIsValidNumber] = useState(false) // State to track input validity
 
   const handleInputChange = (e) => {
@@ -53,6 +56,9 @@ const GetStartedModal = ({ handleClose, open }: GetStartedModalProps) => {
 
     setTimeout(() => {
       handleClose()
+      if (handleNavigate) {
+        handleNavigate()
+      }
     }, 50)
   }
   return (
@@ -85,18 +91,16 @@ const GetStartedModal = ({ handleClose, open }: GetStartedModalProps) => {
               onChange={handleInputChange}
             />
             <Typography id="transition-modal-description" sx={{ mb: 2 }}>
-              Where are you located? (Sorry, we only support US cities at the
-              moment.)
+              What is your location's zip code? (Sorry, we only support US
+              locations at the moment.)
             </Typography>
             <TextField
-              id="city-input"
-              label="City"
-              onChange={(e) => setCity(e.target.value)}
-            />
-            <TextField
-              id="state-input"
-              label="State"
-              onChange={(e) => setState(e.target.value)}
+              id="zip-code-input"
+              label="Zip Code"
+              type="number"
+              onChange={(e) => {
+                setZipCode(e.target.value)
+              }}
             />
           </Stack>
           <Button onClick={handleTemperatureSubmit} disabled={!isValidNumber}>
