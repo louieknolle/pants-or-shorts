@@ -32,14 +32,25 @@ const GetStartedModal = ({
   handleNavigate
 }: GetStartedModalProps) => {
   const { setPreferredTemperature, setZipCode } = useContext(TemperatureContext)
-  const [isValidNumber, setIsValidNumber] = useState(false) // State to track input validity
+  const [isTempNumber, setIsTempNumber] = useState(false)
+  const [isZipCodeValid, setIsZipCodeValid] = useState(false)
 
   const handleInputChange = (e) => {
-    const isValidNumber = !isNaN(parseFloat(e.target.value))
-    setIsValidNumber(isValidNumber)
+    const isTempNumber = !isNaN(parseFloat(e.target.value))
+    setIsTempNumber(isTempNumber)
 
-    // Visual feedback for invalid input (optional)
-    if (isValidNumber) {
+    if (isTempNumber) {
+      e.target.style.backgroundColor = 'white'
+    } else {
+      e.target.style.backgroundColor = '#ffcccc'
+    }
+  }
+
+  const handleZipCodeChange = (e) => {
+    setZipCode(e.target.value.slice(0, 5))
+    setIsZipCodeValid(!isNaN(parseInt(e.target.value)))
+
+    if (isZipCodeValid) {
       e.target.style.backgroundColor = 'white'
     } else {
       e.target.style.backgroundColor = '#ffcccc'
@@ -52,7 +63,7 @@ const GetStartedModal = ({
     ) as HTMLInputElement
     const enteredTemperature = parseFloat(textInput?.value)
     setPreferredTemperature(enteredTemperature)
-    setIsValidNumber(false)
+    setIsTempNumber(false)
 
     setTimeout(() => {
       handleClose()
@@ -89,6 +100,7 @@ const GetStartedModal = ({
               label="Temperature"
               type="number"
               onChange={handleInputChange}
+              required
             />
             <Typography id="transition-modal-description" sx={{ mb: 2 }}>
               What is your location's zip code? (Sorry, we only support US
@@ -98,12 +110,17 @@ const GetStartedModal = ({
               id="zip-code-input"
               label="Zip Code"
               type="number"
-              onChange={(e) => {
-                setZipCode(e.target.value)
+              onChange={handleZipCodeChange}
+              required
+              inputProps={{
+                maxLength: 5
               }}
             />
           </Stack>
-          <Button onClick={handleTemperatureSubmit} disabled={!isValidNumber}>
+          <Button
+            onClick={handleTemperatureSubmit}
+            disabled={!isTempNumber || !isZipCodeValid}
+          >
             Save Preference
           </Button>
         </Stack>
