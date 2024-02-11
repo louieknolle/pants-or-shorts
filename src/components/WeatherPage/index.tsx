@@ -2,14 +2,12 @@ import { TemperatureContext } from 'components/TemperatureContext'
 import React, { useContext } from 'react'
 import useWeatherData from 'utils/useWeatherData'
 import CircularProgress from '@mui/material/CircularProgress'
-import { Box, IconButton } from '@mui/material'
-import HomeIcon from '@mui/icons-material/Home'
+import { Box } from '@mui/material'
 import pantsImage from '../../assets/pants.png'
 import shortsImage from '../../assets/shorts_round.png'
 
 const WeatherPage = () => {
-  const { preferredTemperature, zipCode, setPreferredTemperature, setZipCode } =
-    useContext(TemperatureContext)
+  const { preferredTemperature, zipCode } = useContext(TemperatureContext)
   const { data, loading, error } = useWeatherData(zipCode)
 
   if (loading) {
@@ -28,22 +26,8 @@ const WeatherPage = () => {
 
   const decision = fahrenheitTemp >= preferredTemperature ? 'shorts' : 'pants'
 
-  const handleHomeClick = () => {
-    setPreferredTemperature(0)
-    setZipCode('')
-  }
-
   return (
     <div className="flex h-screen flex-col items-center justify-center rounded-lg p-8">
-      <IconButton
-        aria-label="home"
-        sx={{ position: 'absolute', top: 16, right: 16 }}
-        size="large"
-        href="/"
-        onClick={handleHomeClick}
-      >
-        <HomeIcon />
-      </IconButton>
       <div style={{ fontFamily: 'Roboto, sans-serif' }} className="text-center">
         <h1 className="pb-2 text-4xl font-bold text-gray-50">
           {`It is currently ${fahrenheitTemp}°F.`}
