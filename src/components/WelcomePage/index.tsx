@@ -13,8 +13,7 @@ const WelcomePage = () => {
   }
 
   const handleNavigate = () => {
-    // Save preferences (implement your logic here)
-    navigate('/weather', { replace: true }) // Navigate to weather page after saving
+    navigate('/weather', { replace: true })
   }
 
   return (

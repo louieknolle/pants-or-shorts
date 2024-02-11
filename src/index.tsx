@@ -8,8 +8,6 @@ const root = createRoot(container)
 
 root.render(
   <TemperatureProvider>
-    <div className="app h-screen bg-gradient-to-r from-sky-500 to-indigo-500">
-      <App />
-    </div>
+    <App />
   </TemperatureProvider>
 )
