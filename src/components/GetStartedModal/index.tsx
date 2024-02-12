@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 import { Stack, TextField } from '@mui/material'
 import { TemperatureContext } from 'components/TemperatureContext'
 import { useContext, useState } from 'react'
+import usZips from 'us-zips'
 
 const style = {
   position: 'absolute' as const,
@@ -50,7 +51,7 @@ const GetStartedModal = ({
     setZipCode(e.target.value.slice(0, 5))
     setIsZipCodeValid(!isNaN(parseInt(e.target.value)))
 
-    if (isZipCodeValid) {
+    if (isZipCodeValid && usZips.includes(parseInt(e.target.value))) {
       e.target.style.backgroundColor = 'white'
     } else {
       e.target.style.backgroundColor = '#ffcccc'
